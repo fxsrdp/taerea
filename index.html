@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taerea</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #fff;
+    color: #0d0d0d;
+    min-height: 100vh;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 2rem 3rem 1.5rem;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  .logo {
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #0d0d0d;
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    gap: 2.5rem;
+  }
+  nav a {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #888;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  nav a:hover { color: #0d0d0d; }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    max-height: 55vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero img {
+    width: 100%;
+    max-height: 55vh;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .bracket {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+  }
+  .bracket-tl { top: 20px; left: 20px; border-top: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); }
+  .bracket-tr { top: 20px; right: 20px; border-top: 1px solid rgba(255,255,255,0.5); border-right: 1px solid rgba(255,255,255,0.5); }
+  .bracket-bl { bottom: 20px; left: 20px; border-bottom: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); }
+  .bracket-br { bottom: 20px; right: 20px; border-bottom: 1px solid rgba(255,255,255,0.5); border-right: 1px solid rgba(255,255,255,0.5); }
+
+  .sub {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 1rem 3rem;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  .sub-l {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #888;
+  }
+  .sub-r {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.12em;
+    color: #bbb;
+    font-style: italic;
+  }
+
+  .sections {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 0.5px solid #e0e0e0;
+  }
+  .section {
+    padding: 2.5rem 2.5rem 3rem;
+    border-right: 0.5px solid #e0e0e0;
+    position: relative;
+  }
+  .section:last-child { border-right: none; }
+
+  .sec-bracket-tr {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 10px; height: 10px;
+    border-top: 0.5px solid #d4d4d4;
+    border-right: 0.5px solid #d4d4d4;
+  }
+  .sec-bracket-bl {
+    position: absolute;
+    bottom: 18px; left: 24px;
+    width: 10px; height: 10px;
+    border-bottom: 0.5px solid #d4d4d4;
+    border-left: 0.5px solid #d4d4d4;
+  }
+
+  .sec-num {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.35em;
+    color: #ccc;
+    margin-bottom: 1.4rem;
+  }
+  .sec-title {
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    color: #0d0d0d;
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+  .sec-en {
+    font-size: 9px;
+    font-weight: 200;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c0c0c0;
+    margin-bottom: 1.2rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 0.5px solid #ebebeb;
+  }
+  .sec-text {
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.85;
+    color: #555;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+  }
+  .footer-l {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #ccc;
+  }
+  .ticks {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+  }
+  .tick {
+    background: #ddd;
+    width: 1px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">Taerea</a>
+  <nav>
+    <a href="#settle">Settle</a>
+    <a href="#carry">Carry</a>
+    <a href="#root">Root</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <img src="assets/hero.jpg" alt="Taerea" />
+  <div class="bracket bracket-tl"></div>
+  <div class="bracket bracket-tr"></div>
+  <div class="bracket bracket-bl"></div>
+  <div class="bracket bracket-br"></div>
+</div>
+
+<div class="sub">
+  <span class="sub-l">Objects for living</span>
+  <span class="sub-r">Capsulation without compromise</span>
+</div>
+
+<div class="sections">
+  <div class="section" id="settle">
+    <div class="sec-bracket-tr"></div>
+    <div class="sec-num">I</div>
+    <div class="sec-title">Das Zuhause setzen</div>
+    <div class="sec-en">Settle</div>
+    <div class="sec-text">Du bist neu — neue Stadt, neues Kapitel, neues Milieu. Der Raum ist noch leer von Geschichte. Die ersten Objekte die du setzt, geben den Ton an. Nicht irgendwann, sondern jetzt.</div>
+    <div class="sec-bracket-bl"></div>
+  </div>
+  <div class="section" id="carry">
+    <div class="sec-bracket-tr"></div>
+    <div class="sec-num">II</div>
+    <div class="sec-title">Das Zuhause tragen</div>
+    <div class="sec-en">Carry</div>
+    <div class="sec-text">Du bist oft weg oder immer in Bewegung. Das Zuhause ist kein Ort sondern eine Qualität, die du mitbringst. Die Objekte die dich begleiten sind leicht, aber nicht beliebig.</div>
+    <div class="sec-bracket-bl"></div>
+  </div>
+  <div class="section" id="root">
+    <div class="sec-bracket-tr"></div>
+    <div class="sec-num">III</div>
+    <div class="sec-title">Das Zuhause finden</div>
+    <div class="sec-en">Root</div>
+    <div class="sec-text">Du weißt nicht genau wo du gerade bist oder ob das hier schon zählt. Trotzdem sammelst du Dinge, die sich richtig anfühlen — Objekte, die halten ohne zu erklären warum.</div>
+    <div class="sec-bracket-bl"></div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-l">Taerea — 2026</span>
+  <div class="ticks">
+    <div class="tick" style="height:10px"></div>
+    <div class="tick" style="height:6px"></div>
+    <div class="tick" style="height:8px"></div>
+    <div class="tick" style="height:5px"></div>
+    <div class="tick" style="height:10px"></div>
+    <div class="tick" style="height:6px"></div>
+    <div class="tick" style="height:7px"></div>
+    <div class="tick" style="height:4px"></div>
+    <div class="tick" style="height:9px"></div>
+    <div class="tick" style="height:6px"></div>
+    <div class="tick" style="height:8px"></div>
+    <div class="tick" style="height:5px"></div>
+  </div>
+</footer>
+
+</body>
+</html>

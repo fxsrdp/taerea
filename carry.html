@@ -6,7 +6,7 @@
 <title>Taerea — Carry</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0d0d0d; width: 100vw; height: 100vw; overflow: hidden; }
+  body { background: #fff; width: 100vw; height: 100vw; overflow: hidden; position: relative; }
   #txt {
     position: absolute;
     font-family: 'Inter', system-ui, sans-serif;
@@ -15,41 +15,97 @@
     letter-spacing: 0.2em;
     text-transform: uppercase;
     white-space: nowrap;
-    color: #fff;
+    color: #0d0d0d;
+    z-index: 1;
+  }
+  #c {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
   }
 </style>
 </head>
 <body>
 <div id="txt">Hello World</div>
+<canvas id="c"></canvas>
 <script>
   const el = document.getElementById('txt');
-  const colors = ['#ffffff','#a8c0e8','#c8b8e8','#b8e0d0','#e8d0a8','#e8b8b8'];
+  const canvas = document.getElementById('c');
+  const ctx = canvas.getContext('2d');
+
+  const palette = ['#ae6f1b','#ae1b6f','#6fae1b','#1b6fae','#ae1b1b','#6f1bae'];
+  const spreads = [];
   let x = 30, y = 40;
   let dx = 0.28, dy = 0.32;
-  let ci = 2;
+
+  function resize() {
+    const s = window.innerWidth;
+    canvas.width = s;
+    canvas.height = s;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function addSpread(edge, pos) {
+    spreads.push({
+      edge, pos,
+      len: 0,
+      maxLen: 80 + Math.random() * 120,
+      color: palette[Math.floor(Math.random() * palette.length)],
+      alpha: 1,
+      done: false
+    });
+  }
 
   function step() {
-    const vw = window.innerWidth;
-    const vh = window.innerWidth;
+    const S = window.innerWidth;
     const w = el.offsetWidth;
     const h = el.offsetHeight;
+    const speed = S * 0.003;
 
-    x += dx * vw / 100;
-    y += dy * vw / 100;
+    x += dx * speed;
+    y += dy * speed;
 
-    let hit = false;
-    if (x <= 0) { x = 0; dx = Math.abs(dx); hit = true; }
-    if (x + w >= vw) { x = vw - w; dx = -Math.abs(dx); hit = true; }
-    if (y <= 0) { y = 0; dy = Math.abs(dy); hit = true; }
-    if (y + h >= vh) { y = vh - h; dy = -Math.abs(dy); hit = true; }
-
-    if (hit) {
-      ci = (ci + 1) % colors.length;
-      el.style.color = colors[ci];
-    }
+    if (x <= 0) { x = 0; dx = Math.abs(dx); addSpread('left', y + h / 2); }
+    if (x + w >= S) { x = S - w; dx = -Math.abs(dx); addSpread('right', y + h / 2); }
+    if (y <= 0) { y = 0; dy = Math.abs(dy); addSpread('top', x + w / 2); }
+    if (y + h >= S) { y = S - h; dy = -Math.abs(dy); addSpread('bottom', x + w / 2); }
 
     el.style.left = x + 'px';
     el.style.top = y + 'px';
+
+    ctx.clearRect(0, 0, S, S);
+
+    for (const s of spreads) {
+      if (!s.done) { s.len += 2.5; if (s.len >= s.maxLen) s.done = true; }
+      else { s.alpha -= 0.004; }
+      if (s.alpha <= 0) continue;
+
+      ctx.globalAlpha = s.alpha;
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      switch (s.edge) {
+        case 'top':    ctx.moveTo(s.pos - s.len, 0.5);   ctx.lineTo(s.pos + s.len, 0.5);   break;
+        case 'bottom': ctx.moveTo(s.pos - s.len, S - 0.5); ctx.lineTo(s.pos + s.len, S - 0.5); break;
+        case 'left':   ctx.moveTo(0.5, s.pos - s.len);   ctx.lineTo(0.5, s.pos + s.len);   break;
+        case 'right':  ctx.moveTo(S - 0.5, s.pos - s.len); ctx.lineTo(S - 0.5, s.pos + s.len); break;
+      }
+      ctx.stroke();
+    }
+
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = '#0d0d0d';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(0.5, 0.5, S - 1, S - 1);
+
+    for (let i = spreads.length - 1; i >= 0; i--) {
+      if (spreads[i].alpha <= 0) spreads.splice(i, 1);
+    }
+
     requestAnimationFrame(step);
   }
   step();

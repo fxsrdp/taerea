@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; }
   body {
     font-family: 'Inter', system-ui, sans-serif;
     background: #fff;
@@ -20,23 +19,20 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 2rem 3rem 1.5rem;
-    border-bottom: 0.5px solid #e0e0e0;
+    padding: 2.2vh 3vw 1.8vh;
+    border-bottom: 0.05vw solid #e0e0e0;
   }
   .logo {
-    font-size: 11px;
+    font-size: 0.76vw;
     font-weight: 300;
     letter-spacing: 0.35em;
     text-transform: uppercase;
     color: #0d0d0d;
     text-decoration: none;
   }
-  nav {
-    display: flex;
-    gap: 2.5rem;
-  }
+  nav { display: flex; gap: 2.5vw; }
   nav a {
-    font-size: 10px;
+    font-size: 0.69vw;
     font-weight: 200;
     letter-spacing: 0.25em;
     text-transform: uppercase;
@@ -50,44 +46,41 @@
     position: relative;
     overflow: hidden;
     background: #111;
-    max-height: 55vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    height: 55vh;
   }
   .hero img {
     width: 100%;
-    max-height: 55vh;
+    height: 55vh;
     object-fit: cover;
     object-position: center;
     display: block;
   }
   .bracket {
     position: absolute;
-    width: 22px;
-    height: 22px;
+    width: 1.5vw;
+    height: 2.5vh;
   }
-  .bracket-tl { top: 20px; left: 20px; border-top: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); }
-  .bracket-tr { top: 20px; right: 20px; border-top: 1px solid rgba(255,255,255,0.5); border-right: 1px solid rgba(255,255,255,0.5); }
-  .bracket-bl { bottom: 20px; left: 20px; border-bottom: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); }
-  .bracket-br { bottom: 20px; right: 20px; border-bottom: 1px solid rgba(255,255,255,0.5); border-right: 1px solid rgba(255,255,255,0.5); }
+  .bracket-tl { top: 2.2vh; left: 1.4vw; border-top: 0.07vw solid rgba(255,255,255,0.5); border-left: 0.07vw solid rgba(255,255,255,0.5); }
+  .bracket-tr { top: 2.2vh; right: 1.4vw; border-top: 0.07vw solid rgba(255,255,255,0.5); border-right: 0.07vw solid rgba(255,255,255,0.5); }
+  .bracket-bl { bottom: 2.2vh; left: 1.4vw; border-bottom: 0.07vw solid rgba(255,255,255,0.5); border-left: 0.07vw solid rgba(255,255,255,0.5); }
+  .bracket-br { bottom: 2.2vh; right: 1.4vw; border-bottom: 0.07vw solid rgba(255,255,255,0.5); border-right: 0.07vw solid rgba(255,255,255,0.5); }
 
   .sub {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 1rem 3rem;
-    border-bottom: 0.5px solid #e0e0e0;
+    padding: 1.2vh 3vw;
+    border-bottom: 0.05vw solid #e0e0e0;
   }
   .sub-l {
-    font-size: 10px;
+    font-size: 0.69vw;
     font-weight: 200;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: #888;
   }
   .sub-r {
-    font-size: 10px;
+    font-size: 0.69vw;
     font-weight: 200;
     letter-spacing: 0.12em;
     color: #bbb;
@@ -97,57 +90,57 @@
   .sections {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    border-bottom: 0.5px solid #e0e0e0;
+    border-bottom: 0.05vw solid #e0e0e0;
   }
   .section {
-    padding: 2.5rem 2.5rem 3rem;
-    border-right: 0.5px solid #e0e0e0;
+    padding: 3vh 2.5vw 4vh;
+    border-right: 0.05vw solid #e0e0e0;
     position: relative;
   }
   .section:last-child { border-right: none; }
 
   .sec-bracket-tr {
     position: absolute;
-    top: 14px; right: 14px;
-    width: 10px; height: 10px;
-    border-top: 0.5px solid #d4d4d4;
-    border-right: 0.5px solid #d4d4d4;
+    top: 1.5vh; right: 1vw;
+    width: 0.7vw; height: 1.2vh;
+    border-top: 0.05vw solid #d4d4d4;
+    border-right: 0.05vw solid #d4d4d4;
   }
   .sec-bracket-bl {
     position: absolute;
-    bottom: 18px; left: 24px;
-    width: 10px; height: 10px;
-    border-bottom: 0.5px solid #d4d4d4;
-    border-left: 0.5px solid #d4d4d4;
+    bottom: 2vh; left: 2vw;
+    width: 0.7vw; height: 1.2vh;
+    border-bottom: 0.05vw solid #d4d4d4;
+    border-left: 0.05vw solid #d4d4d4;
   }
 
   .sec-num {
-    font-size: 10px;
+    font-size: 0.69vw;
     font-weight: 200;
     letter-spacing: 0.35em;
     color: #ccc;
-    margin-bottom: 1.4rem;
+    margin-bottom: 1.8vh;
   }
   .sec-title {
-    font-size: 14px;
+    font-size: 0.97vw;
     font-weight: 300;
     letter-spacing: 0.02em;
     color: #0d0d0d;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5vh;
     line-height: 1.4;
   }
   .sec-en {
-    font-size: 9px;
+    font-size: 0.63vw;
     font-weight: 200;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #c0c0c0;
-    margin-bottom: 1.2rem;
-    padding-bottom: 1.1rem;
-    border-bottom: 0.5px solid #ebebeb;
+    margin-bottom: 1.5vh;
+    padding-bottom: 1.4vh;
+    border-bottom: 0.05vw solid #ebebeb;
   }
   .sec-text {
-    font-size: 12px;
+    font-size: 0.83vw;
     font-weight: 300;
     line-height: 1.85;
     color: #555;
@@ -157,24 +150,17 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.4rem 3rem;
+    padding: 1.6vh 3vw;
   }
   .footer-l {
-    font-size: 10px;
+    font-size: 0.69vw;
     font-weight: 200;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: #ccc;
   }
-  .ticks {
-    display: flex;
-    gap: 3px;
-    align-items: flex-end;
-  }
-  .tick {
-    background: #ddd;
-    width: 1px;
-  }
+  .ticks { display: flex; gap: 0.2vw; align-items: flex-end; }
+  .tick { background: #ddd; width: 0.07vw; }
 </style>
 </head>
 <body>
@@ -231,18 +217,18 @@
 <footer>
   <span class="footer-l">Taerea — 2026</span>
   <div class="ticks">
-    <div class="tick" style="height:10px"></div>
-    <div class="tick" style="height:6px"></div>
-    <div class="tick" style="height:8px"></div>
-    <div class="tick" style="height:5px"></div>
-    <div class="tick" style="height:10px"></div>
-    <div class="tick" style="height:6px"></div>
-    <div class="tick" style="height:7px"></div>
-    <div class="tick" style="height:4px"></div>
-    <div class="tick" style="height:9px"></div>
-    <div class="tick" style="height:6px"></div>
-    <div class="tick" style="height:8px"></div>
-    <div class="tick" style="height:5px"></div>
+    <div class="tick" style="height:1.1vh"></div>
+    <div class="tick" style="height:0.7vh"></div>
+    <div class="tick" style="height:0.9vh"></div>
+    <div class="tick" style="height:0.6vh"></div>
+    <div class="tick" style="height:1.1vh"></div>
+    <div class="tick" style="height:0.7vh"></div>
+    <div class="tick" style="height:0.8vh"></div>
+    <div class="tick" style="height:0.5vh"></div>
+    <div class="tick" style="height:1vh"></div>
+    <div class="tick" style="height:0.7vh"></div>
+    <div class="tick" style="height:0.9vh"></div>
+    <div class="tick" style="height:0.6vh"></div>
   </div>
 </footer>
 

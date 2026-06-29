@@ -3,112 +3,396 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taerea — Carry</title>
+<title>Taerea · Carry</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #fff; width: 100vw; height: 100vw; overflow: hidden; position: relative; }
-  #txt {
-    position: absolute;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 4vw;
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: #0d0d0d;
-    z-index: 1;
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  #c {
-    position: absolute;
-    top: 0; left: 0;
+
+  html, body {
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    color: #0d0d0d;
+    cursor: crosshair;
+  }
+
+  .carry-shop {
+    width: 100vw;
+    height: 100vw;
+    display: grid;
+    grid-template-rows: 8vw 1fr 8vw;
+    overflow: hidden;
+    border: 1px solid #0d0d0d;
+  }
+
+  /* ── HEADER ── */
+  .shop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    border-bottom: 1px solid #0d0d0d;
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.2vw;
+  }
+
+  .brand {
+    font-weight: 200;
+    font-size: 1.8vw;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  .accent-dot {
+    color: #8a9ab8;
+    font-size: 1.8vw;
+    font-weight: 200;
+  }
+
+  .category {
+    font-weight: 200;
+    font-size: 1.8vw;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    font-weight: 200;
+    font-size: 1vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+  }
+
+  /* ── PRODUCT GRID ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0;
+  }
+
+  .product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    cursor: crosshair;
+    overflow: hidden;
+    transition: all 0.4s ease;
+  }
+
+  .product-card:nth-child(2),
+  .product-card:nth-child(4) {
+    border-right: none;
+  }
+
+  .product-card:nth-child(3),
+  .product-card:nth-child(4) {
+    border-bottom: none;
+  }
+
+  /* ── CARD IMAGE ── */
+  .card-image {
+    flex: 0 0 70%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-placeholder {
     width: 100%;
     height: 100%;
-    z-index: 2;
-    pointer-events: none;
+    transition: filter 0.4s ease;
+  }
+
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.4s ease;
+    display: block;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: transparent;
+  }
+
+  .overlay-label {
+    color: #8a9ab8;
+    font-weight: 200;
+    font-size: 1vw;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  /* ── CARD META ── */
+  .card-meta {
+    flex: 0 0 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 2.5vw;
+    gap: 0.6vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .card-meta-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1vw;
+  }
+
+  .product-name {
+    font-weight: 300;
+    font-size: 1.4vw;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: color 0.4s ease;
+  }
+
+  .meta-sep {
+    font-weight: 200;
+    font-size: 1.2vw;
+    color: #8a9ab8;
+    flex-shrink: 0;
+  }
+
+  .product-price {
+    font-weight: 200;
+    font-size: 1.2vw;
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease;
+    flex-shrink: 0;
+  }
+
+  .product-desc {
+    font-weight: 200;
+    font-size: 0.9vw;
+    letter-spacing: 0.08em;
+    color: #888;
+    transition: color 0.4s ease;
+    line-height: 1.5;
+  }
+
+  .product-category {
+    font-weight: 200;
+    font-size: 0.75vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #8a9ab8;
+  }
+
+  /* ── HOVER STATES ── */
+  .product-card:hover .card-placeholder {
+    filter: brightness(0.85);
+  }
+
+  .product-card:hover .card-img {
+    filter: brightness(0.85);
+  }
+
+  .product-card:hover .card-overlay {
+    opacity: 1;
+  }
+
+  .product-card:hover .product-name {
+    color: #8a9ab8;
+  }
+
+  .product-card:hover .product-price {
+    color: #8a9ab8;
+  }
+
+  .product-card:hover .product-desc {
+    color: #8a9ab8;
+    opacity: 0.7;
+  }
+
+  .product-card:active {
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  .shop-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .footer-left {
+    font-weight: 200;
+    font-size: 1vw;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5vw;
+  }
+
+  .footer-nav-item {
+    font-weight: 200;
+    font-size: 0.85vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+    cursor: crosshair;
+    transition: color 0.4s ease;
+    text-decoration: none;
+  }
+
+  .footer-nav-item:hover {
+    color: #8a9ab8;
+  }
+
+  .footer-nav-item.active {
+    color: #0d0d0d;
+  }
+
+  .tagline {
+    font-weight: 200;
+    font-size: 0.9vw;
+    letter-spacing: 0.3em;
+    font-style: italic;
+    color: #888;
   }
 </style>
 </head>
 <body>
-<div id="txt">Hello World</div>
-<canvas id="c"></canvas>
-<script>
-  const el = document.getElementById('txt');
-  const canvas = document.getElementById('c');
-  const ctx = canvas.getContext('2d');
 
-  const palette = ['#ae6f1b','#ae1b6f','#6fae1b','#1b6fae','#ae1b1b','#6f1bae'];
-  const spreads = [];
-  let x = 30, y = 40;
-  let dx = 0.28, dy = 0.32;
+<div class="carry-shop">
 
-  function resize() {
-    const s = window.innerWidth;
-    canvas.width = s;
-    canvas.height = s;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+  <header class="shop-header">
+    <div class="header-left">
+      <span class="brand">Taerea</span>
+      <span class="accent-dot">·</span>
+      <span class="category">Carry</span>
+    </div>
+    <span class="header-right">4 Objects</span>
+  </header>
 
-  function addSpread(edge, pos) {
-    spreads.push({
-      edge, pos,
-      len: 0,
-      maxLen: 80 + Math.random() * 120,
-      color: palette[Math.floor(Math.random() * palette.length)],
-      alpha: 1,
-      done: false
-    });
-  }
+  <main class="product-grid">
 
-  function step() {
-    const S = window.innerWidth;
-    const w = el.offsetWidth;
-    const h = el.offsetHeight;
-    const speed = S * 0.003;
+    <article class="product-card">
+      <div class="card-image">
+        <img class="card-img" src="assets/carry_product_1.png" alt="Stone Vessel" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <rect width="100" height="100" fill="#C8BFB0"/>
+        </svg>
+        <div class="card-overlay">
+          <span class="overlay-label">View Object</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="product-category">Carry</span>
+        <div class="card-meta-row">
+          <span class="product-name">Stone Vessel</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€ 148</span>
+        </div>
+        <span class="product-desc">Hand-turned limestone cup. One piece, one purpose.</span>
+      </div>
+    </article>
 
-    x += dx * speed;
-    y += dy * speed;
+    <article class="product-card">
+      <div class="card-image">
+        <img class="card-img" src="assets/carry_product_2.png" alt="Travel Incense Set" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <rect width="100" height="100" fill="#A8966E"/>
+        </svg>
+        <div class="card-overlay">
+          <span class="overlay-label">View Object</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="product-category">Carry</span>
+        <div class="card-meta-row">
+          <span class="product-name">Travel Incense Set</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€ 89</span>
+        </div>
+        <span class="product-desc">Brass holder, resin cones. Ritual, compressed.</span>
+      </div>
+    </article>
 
-    if (x <= 0) { x = 0; dx = Math.abs(dx); addSpread('left', y + h / 2); }
-    if (x + w >= S) { x = S - w; dx = -Math.abs(dx); addSpread('right', y + h / 2); }
-    if (y <= 0) { y = 0; dy = Math.abs(dy); addSpread('top', x + w / 2); }
-    if (y + h >= S) { y = S - h; dy = -Math.abs(dy); addSpread('bottom', x + w / 2); }
+    <article class="product-card">
+      <div class="card-image">
+        <img class="card-img" src="assets/carry_product_3.webp" alt="Linen Pouch" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <rect width="100" height="100" fill="#7A7260"/>
+        </svg>
+        <div class="card-overlay">
+          <span class="overlay-label">View Object</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="product-category">Carry</span>
+        <div class="card-meta-row">
+          <span class="product-name">Linen Pouch</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€ 112</span>
+        </div>
+        <span class="product-desc">Waxed linen, brass clasp. Carries what matters.</span>
+      </div>
+    </article>
 
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
+    <article class="product-card">
+      <div class="card-image">
+        <img class="card-img" src="assets/carry_product_4.png" alt="Field Notebook" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
+          <rect width="100" height="100" fill="#4A4A4A"/>
+        </svg>
+        <div class="card-overlay">
+          <span class="overlay-label">View Object</span>
+        </div>
+      </div>
+      <div class="card-meta">
+        <span class="product-category">Carry</span>
+        <div class="card-meta-row">
+          <span class="product-name">Field Notebook</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€ 64</span>
+        </div>
+        <span class="product-desc">Stone-paper cover. Writes anywhere, holds everything.</span>
+      </div>
+    </article>
 
-    ctx.clearRect(0, 0, S, S);
+  </main>
 
-    for (const s of spreads) {
-      if (!s.done) { s.len += 2.5; if (s.len >= s.maxLen) s.done = true; }
-      else { s.alpha -= 0.004; }
-      if (s.alpha <= 0) continue;
+  <footer class="shop-footer">
+    <span class="footer-left">Carry II</span>
+    <span class="tagline">Objects that travel.</span>
+    <nav class="footer-nav">
+      <a class="footer-nav-item active" href="#">Stone</a>
+      <a class="footer-nav-item" href="#">Brass</a>
+      <a class="footer-nav-item" href="#">Linen</a>
+      <a class="footer-nav-item" href="#">Paper</a>
+    </nav>
+  </footer>
 
-      ctx.globalAlpha = s.alpha;
-      ctx.strokeStyle = s.color;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      switch (s.edge) {
-        case 'top':    ctx.moveTo(s.pos - s.len, 0.5);   ctx.lineTo(s.pos + s.len, 0.5);   break;
-        case 'bottom': ctx.moveTo(s.pos - s.len, S - 0.5); ctx.lineTo(s.pos + s.len, S - 0.5); break;
-        case 'left':   ctx.moveTo(0.5, s.pos - s.len);   ctx.lineTo(0.5, s.pos + s.len);   break;
-        case 'right':  ctx.moveTo(S - 0.5, s.pos - s.len); ctx.lineTo(S - 0.5, s.pos + s.len); break;
-      }
-      ctx.stroke();
-    }
+</div>
 
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = '#0d0d0d';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(0.5, 0.5, S - 1, S - 1);
-
-    for (let i = spreads.length - 1; i >= 0; i--) {
-      if (spreads[i].alpha <= 0) spreads.splice(i, 1);
-    }
-
-    requestAnimationFrame(step);
-  }
-  step();
-</script>
 </body>
 </html>

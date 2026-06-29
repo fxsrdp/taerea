@@ -6,9 +6,53 @@
 <title>Taerea — Carry</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', system-ui, sans-serif; background: #fff; width: 100vw; height: 100vw; }
+  body { background: #0d0d0d; width: 100vw; height: 100vw; overflow: hidden; }
+  #txt {
+    position: absolute;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 4vw;
+    font-weight: 200;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #fff;
+  }
 </style>
 </head>
 <body>
+<div id="txt">Hello World</div>
+<script>
+  const el = document.getElementById('txt');
+  const colors = ['#ffffff','#a8c0e8','#c8b8e8','#b8e0d0','#e8d0a8','#e8b8b8'];
+  let x = 30, y = 40;
+  let dx = 0.28, dy = 0.32;
+  let ci = 2;
+
+  function step() {
+    const vw = window.innerWidth;
+    const vh = window.innerWidth;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+
+    x += dx * vw / 100;
+    y += dy * vw / 100;
+
+    let hit = false;
+    if (x <= 0) { x = 0; dx = Math.abs(dx); hit = true; }
+    if (x + w >= vw) { x = vw - w; dx = -Math.abs(dx); hit = true; }
+    if (y <= 0) { y = 0; dy = Math.abs(dy); hit = true; }
+    if (y + h >= vh) { y = vh - h; dy = -Math.abs(dy); hit = true; }
+
+    if (hit) {
+      ci = (ci + 1) % colors.length;
+      el.style.color = colors[ci];
+    }
+
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    requestAnimationFrame(step);
+  }
+  step();
+</script>
 </body>
 </html>

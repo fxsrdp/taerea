@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taerea · Lab</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 100vw;
+  height: 100vw;
+  overflow: hidden;
+  background: #fff;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+}
+
+.lab-wrap {
+  width: 100vw;
+  height: 100vw;
+  display: grid;
+  grid-template-rows: 6vw 1fr 5vw;
+  border: 1px solid #0d0d0d;
+}
+
+.lab-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3vw;
+  border-bottom: 1px solid #0d0d0d;
+}
+
+.header-brand {
+  font-size: 1.2vw;
+  font-weight: 200;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: #0d0d0d;
+}
+
+.header-label {
+  font-size: 0.8vw;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #e8521a;
+}
+
+.header-hint {
+  font-size: 0.75vw;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #bbb;
+}
+
+.canvas-area {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  cursor: crosshair;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lab-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 3vw;
+  border-top: 1px solid #0d0d0d;
+}
+
+.footer-left {
+  font-size: 0.75vw;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #0d0d0d;
+}
+
+.footer-controls {
+  display: flex;
+  gap: 2vw;
+}
+
+.ctrl-btn {
+  font-size: 0.7vw;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #888;
+  cursor: crosshair;
+  background: none;
+  border: none;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.ctrl-btn:hover { color: #e8521a; }
+
+.footer-count {
+  font-size: 0.75vw;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  color: #ccc;
+}
+</style>
+</head>
+<body>
+
+<div class="lab-wrap">
+
+  <header class="lab-header">
+    <span class="header-brand">Taerea</span>
+    <span class="header-label">Lab — VI</span>
+    <span class="header-hint">Click to cycle · Drag to paint</span>
+  </header>
+
+  <div class="canvas-area" id="canvasArea">
+    <canvas id="grid"></canvas>
+  </div>
+
+  <footer class="lab-footer">
+    <span class="footer-left">Form Laboratory</span>
+    <div class="footer-controls">
+      <button class="ctrl-btn" id="btnClear">Clear</button>
+      <button class="ctrl-btn" id="btnRandom">Random</button>
+      <button class="ctrl-btn" id="btnOrange">Orange wave</button>
+    </div>
+    <span class="footer-count" id="activeCount">0 / 0 filled</span>
+  </footer>
+
+</div>
+
+<script>
+const canvas = document.getElementById('grid');
+const area = document.getElementById('canvasArea');
+const ctx = canvas.getContext('2d');
+
+// Triangle states: 0=empty/white, 1=solid black, 2=orange
+const STATES = 3;
+const C_EMPTY  = '#fff';
+const C_BLACK  = '#0d0d0d';
+const C_ORANGE = '#e8521a';
+const C_BORDER = '#d4d4d4';
+
+// Grid sizing — triangles per row
+const COLS = 32;
+
+let W, H, cellW, cellH, rows, triangles;
+let isDragging = false;
+let lastPainted = -1;
+
+function resize() {
+  W = area.clientWidth;
+  H = area.clientHeight;
+  canvas.width = W;
+  canvas.height = H;
+  cellW = W / COLS;
+  // Equilateral triangles: h = w * sqrt(3)/2
+  cellH = cellW * (Math.sqrt(3) / 2);
+  rows = Math.ceil(H / cellH) + 1;
+  // 2 triangles per cell (up/down)
+  if (!triangles) {
+    triangles = [];
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < COLS * 2; c++)
+        triangles.push(0);
+  } else {
+    // Extend if needed
+    while (triangles.length < rows * COLS * 2)
+      triangles.push(0);
+  }
+  draw();
+}
+
+function triIndex(row, col) { return row * COLS * 2 + col; }
+
+// Get triangle vertices for cell (row, col) where col is 0..COLS*2-1
+// Even col = upward triangle, odd = downward
+function triVerts(row, col) {
+  const halfCol = Math.floor(col / 2);
+  const isDown = col % 2 === 1;
+  const x = halfCol * cellW;
+  const y = row * cellH;
+  if (!isDown) {
+    // upward ▲
+    return [
+      [x, y + cellH],
+      [x + cellW, y + cellH],
+      [x + cellW / 2, y]
+    ];
+  } else {
+    // downward ▽
+    return [
+      [x, y],
+      [x + cellW, y],
+      [x + cellW / 2, y + cellH]
+    ];
+  }
+}
+
+function stateColor(s) {
+  if (s === 1) return C_BLACK;
+  if (s === 2) return C_ORANGE;
+  return C_EMPTY;
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < COLS * 2; c++) {
+      const idx = triIndex(r, c);
+      const state = triangles[idx] || 0;
+      const verts = triVerts(r, c);
+
+      ctx.beginPath();
+      ctx.moveTo(verts[0][0], verts[0][1]);
+      ctx.lineTo(verts[1][0], verts[1][1]);
+      ctx.lineTo(verts[2][0], verts[2][1]);
+      ctx.closePath();
+
+      ctx.fillStyle = stateColor(state);
+      ctx.fill();
+
+      ctx.strokeStyle = C_BORDER;
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    }
+  }
+
+  // Count filled
+  const filled = triangles.filter(s => s > 0).length;
+  document.getElementById('activeCount').textContent = filled + ' / ' + (rows * COLS * 2) + ' filled';
+}
+
+function hitTest(x, y) {
+  // Approx row/col
+  const row = Math.floor(y / cellH);
+  const approxHalfCol = Math.floor(x / cellW);
+
+  // Check nearby triangles
+  for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
+    for (let hc = Math.max(0, approxHalfCol - 1); hc <= Math.min(COLS - 1, approxHalfCol + 1); hc++) {
+      for (let parity = 0; parity < 2; parity++) {
+        const c = hc * 2 + parity;
+        const verts = triVerts(r, c);
+        if (pointInTriangle(x, y, verts)) {
+          return triIndex(r, c);
+        }
+      }
+    }
+  }
+  return -1;
+}
+
+function pointInTriangle(px, py, verts) {
+  const [a, b, c] = verts;
+  const d1 = sign(px, py, a[0], a[1], b[0], b[1]);
+  const d2 = sign(px, py, b[0], b[1], c[0], c[1]);
+  const d3 = sign(px, py, c[0], c[1], a[0], a[1]);
+  const hasNeg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+  const hasPos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+  return !(hasNeg && hasPos);
+}
+
+function sign(px, py, ax, ay, bx, by) {
+  return (px - bx) * (ay - by) - (ax - bx) * (py - by);
+}
+
+function paintAt(x, y, cycleOn) {
+  const idx = hitTest(x, y);
+  if (idx < 0 || idx === lastPainted) return;
+  lastPainted = idx;
+  if (cycleOn) {
+    triangles[idx] = (triangles[idx] + 1) % STATES;
+  } else {
+    // Drag: paint with last cycled color or orange
+    if (triangles[idx] === 0) triangles[idx] = 2;
+  }
+  draw();
+}
+
+canvas.addEventListener('mousedown', e => {
+  isDragging = true;
+  lastPainted = -1;
+  const r = canvas.getBoundingClientRect();
+  paintAt(e.clientX - r.left, e.clientY - r.top, true);
+});
+
+canvas.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+  const r = canvas.getBoundingClientRect();
+  paintAt(e.clientX - r.left, e.clientY - r.top, false);
+});
+
+canvas.addEventListener('mouseup', () => { isDragging = false; lastPainted = -1; });
+canvas.addEventListener('mouseleave', () => { isDragging = false; lastPainted = -1; });
+
+// Touch
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  isDragging = true;
+  lastPainted = -1;
+  const r = canvas.getBoundingClientRect();
+  const t = e.touches[0];
+  paintAt(t.clientX - r.left, t.clientY - r.top, true);
+}, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  if (!isDragging) return;
+  const r = canvas.getBoundingClientRect();
+  const t = e.touches[0];
+  paintAt(t.clientX - r.left, t.clientY - r.top, false);
+}, { passive: false });
+
+canvas.addEventListener('touchend', () => { isDragging = false; lastPainted = -1; });
+
+// Controls
+document.getElementById('btnClear').addEventListener('click', () => {
+  triangles = triangles.map(() => 0);
+  draw();
+});
+
+document.getElementById('btnRandom').addEventListener('click', () => {
+  triangles = triangles.map(() => Math.random() < 0.15 ? (Math.random() < 0.3 ? 2 : 1) : 0);
+  draw();
+});
+
+document.getElementById('btnOrange').addEventListener('click', () => {
+  // Wave of orange spreading down
+  triangles = triangles.map(() => 0);
+  const total = rows * COLS * 2;
+  let i = 0;
+  const step = () => {
+    const batch = Math.ceil(total / 40);
+    for (let b = 0; b < batch && i < total; b++, i++) {
+      if (Math.random() < 0.6) triangles[i] = 2;
+    }
+    draw();
+    if (i < total) requestAnimationFrame(step);
+  };
+  step();
+});
+
+// Init
+window.addEventListener('resize', resize);
+resize();
+</script>
+
+</body>
+</html>

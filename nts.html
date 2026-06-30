@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taerea · All Objects</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    color: #0d0d0d;
+    cursor: crosshair;
+  }
+
+  .nts-shop {
+    width: 100vw;
+    height: 100vw;
+    display: grid;
+    grid-template-rows: 6vw 1fr 4vw;
+    overflow: hidden;
+    border: 1px solid #0d0d0d;
+  }
+
+  /* ── HEADER ── */
+  .shop-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid #0d0d0d;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    padding: 0 1.4vw;
+    border-right: 1px solid #0d0d0d;
+    flex: 1;
+  }
+
+  .header-brand-text {
+    font-weight: 300;
+    font-size: 1vw;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+
+  .header-brand-text span {
+    color: #e8521a;
+    font-weight: 200;
+  }
+
+  .header-count {
+    display: flex;
+    align-items: center;
+    padding: 0 1.4vw;
+    gap: 0.8vw;
+    white-space: nowrap;
+  }
+
+  .header-count-num {
+    font-weight: 300;
+    font-size: 0.9vw;
+    letter-spacing: 0.15em;
+    color: #0d0d0d;
+  }
+
+  .header-count-label {
+    font-weight: 200;
+    font-size: 0.75vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+  }
+
+  /* ── PRODUCT GRID ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #0d0d0d;
+    border-bottom: 1px solid #0d0d0d;
+    cursor: crosshair;
+    overflow: hidden;
+  }
+
+  .product-card:nth-child(4n) {
+    border-right: none;
+  }
+
+  .product-card:nth-last-child(-n+4) {
+    border-bottom: none;
+  }
+
+  /* ── CARD IMAGE ── */
+  .card-image {
+    flex: 0 0 70%;
+    position: relative;
+    overflow: hidden;
+    background: #e8e4df;
+  }
+
+  .card-img,
+  .card-placeholder {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: filter 0.25s ease;
+  }
+
+  .card-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .card-img {
+    position: relative;
+    z-index: 1;
+  }
+
+  .product-card:hover .card-img,
+  .product-card:hover .card-placeholder {
+    filter: brightness(0.88);
+  }
+
+  /* ── CARD TEXT ── */
+  .card-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.6vw 0.8vw 0.55vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2vw;
+  }
+
+  .card-category {
+    font-weight: 200;
+    font-size: 0.6vw;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #e8521a;
+  }
+
+  .card-name {
+    font-weight: 300;
+    font-size: 0.85vw;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #0d0d0d;
+    transition: color 0.2s ease;
+    line-height: 1.2;
+  }
+
+  .product-card:hover .card-name {
+    color: #e8521a;
+  }
+
+  .card-bottom {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .card-price {
+    font-weight: 200;
+    font-size: 0.75vw;
+    letter-spacing: 0.1em;
+    color: #0d0d0d;
+  }
+
+  .card-arrow {
+    font-weight: 200;
+    font-size: 0.7vw;
+    color: #bbb;
+    letter-spacing: 0;
+    transition: color 0.2s ease;
+  }
+
+  .product-card:hover .card-arrow {
+    color: #e8521a;
+  }
+
+  /* ── FOOTER ── */
+  .shop-footer {
+    display: flex;
+    align-items: stretch;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .footer-index {
+    display: flex;
+    align-items: center;
+    padding: 0 1.4vw;
+    border-right: 1px solid #0d0d0d;
+    font-weight: 200;
+    font-size: 0.9vw;
+    letter-spacing: 0.15em;
+    color: #0d0d0d;
+    white-space: nowrap;
+  }
+
+  .footer-ticker {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-right: 1px solid #0d0d0d;
+  }
+
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
+    animation: ticker 28s linear infinite;
+  }
+
+  .ticker-segment {
+    font-weight: 200;
+    font-size: 0.7vw;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #888;
+    padding: 0 2vw;
+  }
+
+  .ticker-segment .accent {
+    color: #e8521a;
+  }
+
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .footer-time {
+    display: flex;
+    align-items: center;
+    padding: 0 1.4vw;
+    font-weight: 200;
+    font-size: 0.75vw;
+    letter-spacing: 0.2em;
+    color: #888;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+</head>
+<body>
+
+<div class="nts-shop">
+
+  <!-- HEADER -->
+  <header class="shop-header">
+    <div class="header-brand">
+      <span class="header-brand-text">TAEREA <span>—</span> ALL OBJECTS</span>
+    </div>
+    <div class="header-count">
+      <span class="header-count-num">12</span>
+      <span class="header-count-label">Objects</span>
+    </div>
+  </header>
+
+  <!-- PRODUCT GRID -->
+  <main class="product-grid">
+
+    <!-- 01 Folding Rule -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_01_folding_rule.png" alt="Folding Rule"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Tool</span>
+          <span class="card-name">Folding Rule</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€38</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 Cord Keeper -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_02_cord_keeper.png" alt="Cord Keeper"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Carry</span>
+          <span class="card-name">Cord Keeper</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€24</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 Signal Pen -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_03_signal_pen.png" alt="Signal Pen"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Write</span>
+          <span class="card-name">Signal Pen</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€56</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 Form Coaster -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_04_form_coaster.png" alt="Form Coaster"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Settle</span>
+          <span class="card-name">Form Coaster</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€18</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05 Stack Ring (no render) -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Settle</span>
+          <span class="card-name">Stack Ring</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€32</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 06 Travel Tin -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_06_travel_tin.png" alt="Travel Tin"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Carry</span>
+          <span class="card-name">Travel Tin</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€44</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07 Grip Hook (no render) -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Root</span>
+          <span class="card-name">Grip Hook</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€29</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08 Pocket Square -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_08_pocket_square.png" alt="Pocket Square"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Carry</span>
+          <span class="card-name">Pocket Square</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€89</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 09 Block Candle (no render) -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Settle</span>
+          <span class="card-name">Block Candle</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€34</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10 Key Plate -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_10_key_plate.png" alt="Key Plate"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Root</span>
+          <span class="card-name">Key Plate</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€52</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11 Pin Flag -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_11_pin_flag.png" alt="Pin Flag"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Root</span>
+          <span class="card-name">Pin Flag</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€19</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 12 Strap Clasp -->
+    <div class="product-card">
+      <div class="card-image">
+        <svg class="card-placeholder" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <rect width="100" height="100" fill="#e8e4df"/>
+        </svg>
+        <img class="card-img" src="assets/nts_12_strap_clasp.png" alt="Strap Clasp"
+          onerror="this.style.display='none'">
+      </div>
+      <div class="card-info">
+        <div class="card-top">
+          <span class="card-category">Carry</span>
+          <span class="card-name">Strap Clasp</span>
+        </div>
+        <div class="card-bottom">
+          <span class="card-price">€67</span>
+          <span class="card-arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="shop-footer">
+    <div class="footer-index">IV</div>
+    <div class="footer-ticker">
+      <div class="ticker-track">
+        <span class="ticker-segment">Taerea <span class="accent">—</span> Objects for the considered life</span>
+        <span class="ticker-segment">Tool <span class="accent">·</span> Carry <span class="accent">·</span> Write <span class="accent">·</span> Settle <span class="accent">·</span> Root</span>
+        <span class="ticker-segment">All objects ship within <span class="accent">3</span> working days</span>
+        <span class="ticker-segment">12 objects <span class="accent">·</span> 5 categories <span class="accent">·</span> 1 system</span>
+        <span class="ticker-segment">Taerea <span class="accent">—</span> Objects for the considered life</span>
+        <span class="ticker-segment">Tool <span class="accent">·</span> Carry <span class="accent">·</span> Write <span class="accent">·</span> Settle <span class="accent">·</span> Root</span>
+        <span class="ticker-segment">All objects ship within <span class="accent">3</span> working days</span>
+        <span class="ticker-segment">12 objects <span class="accent">·</span> 5 categories <span class="accent">·</span> 1 system</span>
+      </div>
+    </div>
+    <div class="footer-time" id="footer-time">—</div>
+  </footer>
+
+</div>
+
+<script>
+  function updateTime() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('footer-time').textContent = h + ':' + m;
+  }
+  updateTime();
+  setInterval(updateTime, 30000);
+</script>
+
+</body>
+</html>

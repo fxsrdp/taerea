@@ -115,6 +115,14 @@
     transition: filter 0.4s ease;
   }
 
+  .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.4s ease;
+  }
+
   .card-overlay {
     position: absolute;
     inset: 0;
@@ -192,7 +200,8 @@
   }
 
   /* ── HOVER STATES ── */
-  .product-card:hover .card-placeholder {
+  .product-card:hover .card-placeholder,
+  .product-card:hover .card-img {
     filter: brightness(0.88);
   }
 
@@ -284,7 +293,9 @@
 
     <article class="product-card">
       <div class="card-image">
-        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <img class="card-img" src="assets/catalog/b6_vessel_c.png" alt="Stack Vessel"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#C4BDB4"/>
         </svg>
         <div class="card-overlay">
@@ -292,19 +303,21 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Scent</span>
+        <span class="product-category">Vessel</span>
         <div class="card-meta-row">
-          <span class="product-name">Stone Diffuser</span>
+          <span class="product-name">Stack Vessel</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€89</span>
+          <span class="product-price">€128</span>
         </div>
-        <span class="product-desc">Volcanic ceramic, grounds any room instantly.</span>
+        <span class="product-desc">White PLA cylinder, stackable, holds the ritual.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <img class="card-img" src="assets/catalog/b1_cord_disc_b.png" alt="Cord Disc"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#E8E0D5"/>
         </svg>
         <div class="card-overlay">
@@ -312,19 +325,21 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Textile</span>
+        <span class="product-category">Organizer</span>
         <div class="card-meta-row">
-          <span class="product-name">Linen Throw</span>
+          <span class="product-name">Cord Disc</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€145</span>
+          <span class="product-price">€45</span>
         </div>
-        <span class="product-desc">Washed Belgian linen, weighted and tactile.</span>
+        <span class="product-desc">Cable wrapped, nothing loose. Quiet on any surface.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <img class="card-img" src="assets/catalog/b3_candle_b.png" alt="Candle Block"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#B8A070"/>
         </svg>
         <div class="card-overlay">
@@ -334,17 +349,19 @@
       <div class="card-meta">
         <span class="product-category">Light</span>
         <div class="card-meta-row">
-          <span class="product-name">Brass Taper Holder</span>
+          <span class="product-name">Candle Block</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€64</span>
+          <span class="product-price">€78</span>
         </div>
-        <span class="product-desc">Solid brass, single stem, quietly permanent.</span>
+        <span class="product-desc">Solid form, warm interior. Stays when you leave.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <img class="card-img" src="assets/catalog/b5_tray_c.png" alt="Form Tray"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#D6CAB8"/>
         </svg>
         <div class="card-overlay">
@@ -354,11 +371,11 @@
       <div class="card-meta">
         <span class="product-category">Surface</span>
         <div class="card-meta-row">
-          <span class="product-name">Travertine Tray</span>
+          <span class="product-name">Form Tray</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€112</span>
+          <span class="product-price">€92</span>
         </div>
-        <span class="product-desc">Cut stone, collects keys and small rituals.</span>
+        <span class="product-desc">Sharp edges, shallow walls. Collects what matters.</span>
       </div>
     </article>
 

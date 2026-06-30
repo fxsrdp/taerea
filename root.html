@@ -3,112 +3,435 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Taerea — Root</title>
+<title>Taerea · Root</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #fff; width: 100vw; height: 100vw; overflow: hidden; position: relative; }
-  #txt {
-    position: absolute;
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 4vw;
-    font-weight: 200;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: #0d0d0d;
-    z-index: 1;
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
   }
-  #c {
-    position: absolute;
-    top: 0; left: 0;
+
+  html, body {
+    width: 100vw;
+    height: 100vw;
+    overflow: hidden;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    color: #0d0d0d;
+  }
+
+  .root-shop {
+    width: 100vw;
+    height: 100vw;
+    display: grid;
+    grid-template-rows: 8vw 1fr 8vw;
+    overflow: hidden;
+    border: 1px solid #0d0d0d;
+  }
+
+  /* ── HEADER ── */
+  .shop-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    border-bottom: 1px solid #0d0d0d;
+  }
+
+  .brand {
+    font-weight: 200;
+    font-size: 1.8vw;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  .accent-dot {
+    color: #9b8ea0;
+    font-size: 1.8vw;
+    font-weight: 200;
+    margin: 0 0.6vw;
+  }
+
+  .category {
+    font-weight: 200;
+    font-size: 1.8vw;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  .header-right {
+    font-weight: 200;
+    font-size: 1vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+  }
+
+  /* ── ASYMMETRIC HERO GRID ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: 62vw 1fr;
+    grid-template-rows: 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  /* ── HERO CARD (left, full height) ── */
+  .card-hero {
+    position: relative;
+    border-right: 1px solid #0d0d0d;
+    cursor: crosshair;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-img-wrap {
+    flex: 1 1 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img {
     width: 100%;
     height: 100%;
-    z-index: 2;
-    pointer-events: none;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.4s ease;
+  }
+
+  .card-hero:hover .card-img {
+    filter: brightness(0.85);
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .card-hero:hover .card-overlay {
+    opacity: 1;
+  }
+
+  .overlay-label {
+    color: #9b8ea0;
+    font-weight: 200;
+    font-size: 1.1vw;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+  }
+
+  /* Hero meta: outside card, below image, on white */
+  .card-hero .card-meta-ext {
+    flex: 0 0 auto;
+    padding: 1.6vw 2.5vw 1.8vw;
+    display: flex;
+    align-items: baseline;
+    gap: 1.2vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .product-name {
+    font-weight: 300;
+    font-size: 1.5vw;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: color 0.4s ease;
+  }
+
+  .meta-sep {
+    font-weight: 200;
+    font-size: 1.2vw;
+    color: #9b8ea0;
+    flex-shrink: 0;
+  }
+
+  .product-price {
+    font-weight: 200;
+    font-size: 1.2vw;
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease;
+    flex-shrink: 0;
+  }
+
+  .product-desc {
+    font-weight: 200;
+    font-size: 0.9vw;
+    letter-spacing: 0.08em;
+    color: #888;
+    line-height: 1.5;
+    margin-left: auto;
+    transition: color 0.4s ease;
+  }
+
+  .card-hero:hover .product-name,
+  .card-hero:hover .product-price {
+    color: #9b8ea0;
+  }
+
+  .card-hero:hover .product-desc {
+    color: #9b8ea0;
+    opacity: 0.7;
+  }
+
+  /* ── RIGHT COLUMN (three stacked cards) ── */
+  .card-stack {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* top: 2:3 portrait — tallest */
+  .card-small:nth-child(1) {
+    flex: 0 0 50%;
+  }
+
+  /* middle: 1:1 square */
+  .card-small:nth-child(2) {
+    flex: 0 0 26%;
+  }
+
+  /* bottom: 16:9 landscape — flattest */
+  .card-small:nth-child(3) {
+    flex: 1 1 0;
+  }
+
+  .card-small {
+    position: relative;
+    border-bottom: 1px solid #0d0d0d;
+    cursor: crosshair;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-small:last-child {
+    border-bottom: none;
+  }
+
+  .card-small .card-img-wrap {
+    flex: 1 1 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-small .card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.4s ease;
+  }
+
+  .card-small:hover .card-img {
+    filter: brightness(0.85);
+  }
+
+  .card-small:hover .card-overlay {
+    opacity: 1;
+  }
+
+  /* Small card meta: below image on white strip */
+  .card-small .card-meta-ext {
+    flex: 0 0 auto;
+    padding: 0.9vw 1.6vw 1vw;
+    display: flex;
+    align-items: baseline;
+    gap: 0.8vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .card-small .product-name {
+    font-size: 1vw;
+    letter-spacing: 0.2em;
+  }
+
+  .card-small .meta-sep {
+    font-size: 0.9vw;
+  }
+
+  .card-small .product-price {
+    font-size: 0.9vw;
+  }
+
+  .product-category {
+    margin-left: auto;
+    font-weight: 200;
+    font-size: 0.7vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #9b8ea0;
+    flex-shrink: 0;
+  }
+
+  .card-small:hover .product-name,
+  .card-small:hover .product-price {
+    color: #9b8ea0;
+  }
+
+  .card-small:active,
+  .card-hero:active {
+    opacity: 0.7;
+  }
+
+  /* ── FOOTER ── */
+  .shop-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3vw;
+    border-top: 1px solid #0d0d0d;
+  }
+
+  .footer-left {
+    font-weight: 200;
+    font-size: 1vw;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  .tagline {
+    font-weight: 200;
+    font-size: 0.9vw;
+    letter-spacing: 0.3em;
+    font-style: italic;
+    color: #888;
+  }
+
+  .footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 2.5vw;
+  }
+
+  .footer-nav-item {
+    font-weight: 200;
+    font-size: 0.85vw;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #888;
+    cursor: crosshair;
+    transition: color 0.4s ease;
+    text-decoration: none;
+  }
+
+  .footer-nav-item:hover {
+    color: #9b8ea0;
+  }
+
+  .footer-nav-item.active {
+    color: #0d0d0d;
   }
 </style>
 </head>
 <body>
-<div id="txt">Hello World</div>
-<canvas id="c"></canvas>
-<script>
-  const el = document.getElementById('txt');
-  const canvas = document.getElementById('c');
-  const ctx = canvas.getContext('2d');
 
-  const palette = ['#2d6b3a','#6b3a2d','#3a2d6b','#6b5a2d','#2d5a6b','#6b2d5a'];
-  const spreads = [];
-  let x = 50, y = 20;
-  let dx = 0.35, dy = 0.22;
+<div class="root-shop">
 
-  function resize() {
-    const s = window.innerWidth;
-    canvas.width = s;
-    canvas.height = s;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+  <header class="shop-header">
+    <div>
+      <span class="brand">Taerea</span>
+      <span class="accent-dot">·</span>
+      <span class="category">Root</span>
+    </div>
+    <span class="header-right">4 Objects</span>
+  </header>
 
-  function addSpread(edge, pos) {
-    spreads.push({
-      edge, pos,
-      len: 0,
-      maxLen: 80 + Math.random() * 120,
-      color: palette[Math.floor(Math.random() * palette.length)],
-      alpha: 1,
-      done: false
-    });
-  }
+  <main class="product-grid">
 
-  function step() {
-    const S = window.innerWidth;
-    const w = el.offsetWidth;
-    const h = el.offsetHeight;
-    const speed = S * 0.003;
+    <!-- HERO: Mineral Block -->
+    <article class="card-hero">
+      <div class="card-img-wrap">
+        <img class="card-img" src="assets/root_product_1.png" alt="Mineral Block"
+          onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#d4cdd8\'/></svg>')">
+        <div class="card-overlay">
+          <span class="overlay-label">View Object</span>
+        </div>
+      </div>
+      <div class="card-meta-ext">
+        <span class="product-name">Mineral Block</span>
+        <span class="meta-sep">—</span>
+        <span class="product-price">€68</span>
+        <span class="product-desc">Raw selenite. Holds light without trying.</span>
+      </div>
+    </article>
 
-    x += dx * speed;
-    y += dy * speed;
+    <!-- RIGHT STACK -->
+    <div class="card-stack">
 
-    if (x <= 0) { x = 0; dx = Math.abs(dx); addSpread('left', y + h / 2); }
-    if (x + w >= S) { x = S - w; dx = -Math.abs(dx); addSpread('right', y + h / 2); }
-    if (y <= 0) { y = 0; dy = Math.abs(dy); addSpread('top', x + w / 2); }
-    if (y + h >= S) { y = S - h; dy = -Math.abs(dy); addSpread('bottom', x + w / 2); }
+      <!-- Forge Hook: 2:3 portrait top -->
+      <article class="card-small">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/root_product_2.png" alt="Forge Hook"
+            onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#2e2c30\'/></svg>')">
+          <div class="card-overlay">
+            <span class="overlay-label">View Object</span>
+          </div>
+        </div>
+        <div class="card-meta-ext">
+          <span class="product-name">Forge Hook</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€44</span>
+          <span class="product-category">Tool</span>
+        </div>
+      </article>
 
-    el.style.left = x + 'px';
-    el.style.top = y + 'px';
+      <!-- Linen Cord: 1:1 square middle -->
+      <article class="card-small">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/root_product_3.png" alt="Linen Cord"
+            onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#c8bb9e\'/></svg>')">
+          <div class="card-overlay">
+            <span class="overlay-label">View Object</span>
+          </div>
+        </div>
+        <div class="card-meta-ext">
+          <span class="product-name">Linen Cord</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€22</span>
+          <span class="product-category">Material</span>
+        </div>
+      </article>
 
-    ctx.clearRect(0, 0, S, S);
+      <!-- Brass Weight: 16:9 landscape bottom -->
+      <article class="card-small">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/root_product_4.png" alt="Brass Weight"
+            onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#b8952a\'/></svg>')">
+          <div class="card-overlay">
+            <span class="overlay-label">View Object</span>
+          </div>
+        </div>
+        <div class="card-meta-ext">
+          <span class="product-name">Brass Weight</span>
+          <span class="meta-sep">—</span>
+          <span class="product-price">€89</span>
+          <span class="product-category">Object</span>
+        </div>
+      </article>
 
-    for (const s of spreads) {
-      if (!s.done) { s.len += 2.5; if (s.len >= s.maxLen) s.done = true; }
-      else { s.alpha -= 0.004; }
-      if (s.alpha <= 0) continue;
+    </div>
 
-      ctx.globalAlpha = s.alpha;
-      ctx.strokeStyle = s.color;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      switch (s.edge) {
-        case 'top':    ctx.moveTo(s.pos - s.len, 0.5);   ctx.lineTo(s.pos + s.len, 0.5);   break;
-        case 'bottom': ctx.moveTo(s.pos - s.len, S - 0.5); ctx.lineTo(s.pos + s.len, S - 0.5); break;
-        case 'left':   ctx.moveTo(0.5, s.pos - s.len);   ctx.lineTo(0.5, s.pos + s.len);   break;
-        case 'right':  ctx.moveTo(S - 0.5, s.pos - s.len); ctx.lineTo(S - 0.5, s.pos + s.len); break;
-      }
-      ctx.stroke();
-    }
+  </main>
 
-    ctx.globalAlpha = 1;
-    ctx.strokeStyle = '#0d0d0d';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(0.5, 0.5, S - 1, S - 1);
+  <footer class="shop-footer">
+    <span class="footer-left">Root III</span>
+    <span class="tagline">Objects that hold.</span>
+    <nav class="footer-nav">
+      <a class="footer-nav-item active" href="#">Mineral</a>
+      <a class="footer-nav-item" href="#">Tool</a>
+      <a class="footer-nav-item" href="#">Material</a>
+      <a class="footer-nav-item" href="#">Object</a>
+    </nav>
+  </footer>
 
-    for (let i = spreads.length - 1; i >= 0; i--) {
-      if (spreads[i].alpha <= 0) spreads.splice(i, 1);
-    }
+</div>
 
-    requestAnimationFrame(step);
-  }
-  step();
-</script>
 </body>
 </html>

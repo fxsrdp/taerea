@@ -183,25 +183,31 @@ function resize() {
 function triIndex(row, col) { return row * COLS * 2 + col; }
 
 // Get triangle vertices for cell (row, col) where col is 0..COLS*2-1
-// Even col = upward triangle, odd = downward
+// Even col = upward triangle, odd = downward.
+// Triangles interlock along a strip: vertices sit on two horizontal lines
+// (top = row*cellH, bottom = (row+1)*cellH), spaced cellW/2 apart. Each
+// up-triangle's base spans two bottom points with its apex on the top line
+// between them; each down-triangle mirrors that between its neighbors —
+// so adjacent triangles share an edge instead of overlapping.
 function triVerts(row, col) {
-  const halfCol = Math.floor(col / 2);
-  const isDown = col % 2 === 1;
-  const x = halfCol * cellW;
+  const half = cellW / 2;
+  const isUp = col % 2 === 0;
+  const i = isUp ? col / 2 : (col - 1) / 2;
   const y = row * cellH;
-  if (!isDown) {
-    // upward ▲
+  const yBot = y + cellH;
+  if (isUp) {
+    // upward ▲ — base on bottom line, apex on top line
     return [
-      [x, y + cellH],
-      [x + cellW, y + cellH],
-      [x + cellW / 2, y]
+      [2 * i * half, yBot],
+      [(2 * i + 2) * half, yBot],
+      [(2 * i + 1) * half, y]
     ];
   } else {
-    // downward ▽
+    // downward ▽ — base on top line, apex on bottom line
     return [
-      [x, y],
-      [x + cellW, y],
-      [x + cellW / 2, y + cellH]
+      [(2 * i + 1) * half, y],
+      [(2 * i + 3) * half, y],
+      [(2 * i + 2) * half, yBot]
     ];
   }
 }
@@ -242,19 +248,16 @@ function draw() {
 }
 
 function hitTest(x, y) {
-  // Approx row/col
+  // Approx row/col — column index steps in half-cellW units
   const row = Math.floor(y / cellH);
-  const approxHalfCol = Math.floor(x / cellW);
+  const approxCol = Math.floor(x / (cellW / 2));
 
   // Check nearby triangles
   for (let r = Math.max(0, row - 1); r <= Math.min(rows - 1, row + 1); r++) {
-    for (let hc = Math.max(0, approxHalfCol - 1); hc <= Math.min(COLS - 1, approxHalfCol + 1); hc++) {
-      for (let parity = 0; parity < 2; parity++) {
-        const c = hc * 2 + parity;
-        const verts = triVerts(r, c);
-        if (pointInTriangle(x, y, verts)) {
-          return triIndex(r, c);
-        }
+    for (let c = Math.max(0, approxCol - 2); c <= Math.min(COLS * 2 - 1, approxCol + 2); c++) {
+      const verts = triVerts(r, c);
+      if (pointInTriangle(x, y, verts)) {
+        return triIndex(r, c);
       }
     }
   }

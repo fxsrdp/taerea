@@ -225,9 +225,18 @@ const nodes = PHRASES.map((p, i) => {
   const vx = Math.cos(angle) * p.speed;
   const vy = Math.sin(angle) * p.speed;
 
+  // Set an initial transform immediately so the phrase is visible and
+  // correctly placed before the first animation frame runs — without this,
+  // absolutely-positioned elements sit at their default (top-left) box
+  // until the RAF-gated tick loop below first executes, which can be
+  // delayed or throttled (e.g. iframe not yet visible/scrolled into view).
+  el.style.transform = `translate(${x}px, ${y}px)`;
+
   wrap.appendChild(el);
   return { el, x, y, vx, vy, w: 0, h: 0 };
 });
+
+document.getElementById('phrase-count').textContent = PHRASES.length + ' signals';
 
 // Measure after render
 requestAnimationFrame(() => {
@@ -258,7 +267,6 @@ requestAnimationFrame(() => {
   }
 
   tick();
-  document.getElementById('phrase-count').textContent = PHRASES.length + ' signals';
 });
 </script>
 

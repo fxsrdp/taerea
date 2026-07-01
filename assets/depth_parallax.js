@@ -1,29 +1,36 @@
 /**
- * depth_parallax.js — vertical depth-parallax coupled to the iframe's own
- * position in the parent viewport.
+ * depth_parallax.js — vertical depth-parallax coupled to a reference
+ * element's position in the viewport.
  *
- * Each shop page is loaded as a 100vw×100vw same-origin iframe stacked in
- * index.html. window.frameElement (same-origin) exposes THIS iframe's own
- * DOM node as seen from the parent document, so getBoundingClientRect() on
- * it gives the iframe's live position in the browser's visible viewport —
- * that's the "position in viewport" the effect is coupled to.
+ * Two modes, auto-detected per call:
+ * 1. Embedded shop iframe (settle/carry/root/nts): window.frameElement
+ *    (same-origin) exposes THIS iframe's own DOM node as seen from the
+ *    parent document, so getBoundingClientRect() on it gives the iframe's
+ *    live position in the browser's visible viewport.
+ * 2. Top-level page section (e.g. index.html hero): pass
+ *    initDepthParallax({ refEl: someElement }) — that element's own
+ *    getBoundingClientRect() against window.innerHeight is used directly,
+ *    since there's no parent frame to reach through.
+ *
+ * Either way: the filter's scale attribute is driven every frame by how
+ * far the reference element's center has traveled past the viewport's
+ * vertical center — max at the edges, zero when centered, so the effect
+ * reads as "depth settling into place" as the section scrolls into view.
  *
  * Each product image gets an SVG <filter> with a feImage (RGB displacement
  * map: R=128 neutral, G=depth) + feDisplacementMap. Only yChannelSelector
- * reads a varying channel (G), so displacement is vertical-only. The
- * filter's scale attribute is driven every frame by how far the iframe's
- * center has traveled past the viewport's vertical center — max at the
- * edges, zero when the iframe is exactly centered, so the effect reads as
- * "depth settling into place" as the shop scrolls into full view.
+ * reads a varying channel (G), so displacement is vertical-only.
  *
  * Usage: <img class="depth-img" data-depth="assets/depth_disp/x_disp.png" src="...">
- * then call initDepthParallax() after DOM is ready.
+ * then call initDepthParallax() (iframe case) or
+ * initDepthParallax({ refEl: el }) (top-level case) after DOM is ready.
  */
 (function () {
   var MAX_SCALE = 26; // px displacement at full-strength — kept within the Ken Burns oversize buffer to avoid edge clipping/transparency
   var svgNS = 'http://www.w3.org/2000/svg';
   var filterId = 0;
   var bound = [];
+  var refEl = null;
 
   function buildFilter(dispSrc) {
     var id = 'depthDisp' + (filterId++);
@@ -70,27 +77,35 @@
     return svg;
   }
 
-  function iframeProgress() {
-    // 0 = iframe centered in parent viewport (max depth settle),
-    // 1 = iframe edge-aligned or off-center (flat, no displacement)
+  function settleProgress() {
+    // 0 = reference element centered in its viewport (max depth settle),
+    // 1 = edge-aligned or off-center (flat, no displacement)
     try {
+      if (refEl) {
+        var r = refEl.getBoundingClientRect();
+        var viewH = window.innerHeight || r.height;
+        var elCenter = r.top + r.height / 2;
+        var viewCenter = viewH / 2;
+        var dist = Math.abs(elCenter - viewCenter);
+        var maxDist = viewH / 2 + r.height / 2;
+        return Math.min(1, dist / maxDist);
+      }
       var fe = window.frameElement;
-      if (!fe) return 0; // not embedded — treat as fully in view
+      if (!fe) return 0; // not embedded, no refEl given — treat as fully in view
       var rect = fe.getBoundingClientRect();
       var parentH = window.parent.innerHeight || rect.height;
       var iframeCenter = rect.top + rect.height / 2;
       var viewportCenter = parentH / 2;
-      var dist = Math.abs(iframeCenter - viewportCenter);
-      var maxDist = parentH / 2 + rect.height / 2;
-      var t = Math.min(1, dist / maxDist);
-      return t;
+      var d = Math.abs(iframeCenter - viewportCenter);
+      var maxD = parentH / 2 + rect.height / 2;
+      return Math.min(1, d / maxD);
     } catch (e) {
       return 0; // cross-origin or inaccessible — fall back to static max settle
     }
   }
 
   function tick() {
-    var t = iframeProgress();
+    var t = settleProgress();
     var settle = 1 - t; // 1 = centered/settled, 0 = far from center
     bound.forEach(function (b) {
       var scale = MAX_SCALE * settle * b.strength;
@@ -102,10 +117,13 @@
   function initDepthParallax(opts) {
     opts = opts || {};
     var strength = opts.strength || 1;
+    if (opts.refEl) refEl = opts.refEl;
     var svg = getSvgRoot();
     var imgs = document.querySelectorAll('.depth-img[data-depth]');
 
     imgs.forEach(function (img) {
+      if (img.dataset.depthBound) return; // already wired by an earlier call
+      img.dataset.depthBound = '1';
       var dispSrc = img.getAttribute('data-depth');
       var built = buildFilter(dispSrc);
       svg.appendChild(built.filterEl);

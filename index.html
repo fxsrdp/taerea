@@ -60,6 +60,8 @@
     object-fit: cover;
     object-position: center;
     display: block;
+    transform: scale(1.16);
+    transform-origin: center center;
   }
   .bracket {
     position: absolute;
@@ -181,7 +183,7 @@
 </header>
 
 <div class="hero">
-  <img src="assets/hero.jpg" alt="Taerea" />
+  <img class="depth-img" data-depth="assets/depth_disp/hero_disp.png" src="assets/hero.jpg" alt="Taerea" />
   <div class="bracket bracket-tl"></div>
   <div class="bracket bracket-tr"></div>
   <div class="bracket bracket-bl"></div>
@@ -245,6 +247,11 @@
 <iframe src="nts.html" style="display:block;width:100vw;height:100vw;border:none;"></iframe>
 <iframe src="signal.html" style="display:block;width:100vw;height:100vw;border:none;"></iframe>
 <iframe src="lab.html" style="display:block;width:100vw;height:100vw;border:none;"></iframe>
+
+<script src="assets/depth_parallax.js"></script>
+<script>
+  window.initDepthParallax({ refEl: document.querySelector('.hero') });
+</script>
 
 </body>
 </html>

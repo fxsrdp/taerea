@@ -129,6 +129,29 @@
     overflow: hidden;
   }
 
+  .view-dots {
+    position: absolute;
+    bottom: 0.8vw;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5vw;
+    z-index: 2;
+  }
+
+  .view-dot {
+    width: 0.4vw;
+    height: 0.4vw;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .view-dot.active {
+    background: #b8a98a;
+    transform: scale(1.3);
+  }
+
   .card-placeholder {
     width: 100%;
     height: 100%;
@@ -355,7 +378,7 @@
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/b6_vessel_c_disp.png" src="assets/catalog/b6_vessel_c.png" alt="Stack Vessel"
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/b6_vessel_c_disp.png" data-views="assets/catalog/b6_vessel_a.png,assets/catalog/b6_vessel_b.png,assets/catalog/b6_vessel_c.png" src="assets/catalog/b6_vessel_c.png" alt="Stack Vessel"
           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#C4BDB4"/>
@@ -371,13 +394,13 @@
           <span class="meta-sep">—</span>
           <span class="product-price">€128</span>
         </div>
-        <span class="product-desc">White PLA cylinder, stackable, holds the ritual.</span>
+        <span class="product-desc">White PLA cylinder, stackable. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/b1_cord_disc_b_disp.png" src="assets/catalog/b1_cord_disc_b.png" alt="Cord Disc"
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/b1_cord_disc_b_disp.png" data-views="assets/catalog/b1_cord_disc_a.png,assets/catalog/b1_cord_disc_b.png,assets/catalog/b1_cord_disc_c.png" src="assets/catalog/b1_cord_disc_b.png" alt="Cord Disc"
           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#E8E0D5"/>
@@ -393,13 +416,13 @@
           <span class="meta-sep">—</span>
           <span class="product-price">€45</span>
         </div>
-        <span class="product-desc">Cable wrapped, nothing loose. Quiet on any surface.</span>
+        <span class="product-desc">Cable wrapped, nothing loose. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/b3_candle_b_disp.png" src="assets/catalog/b3_candle_b.png" alt="Candle Block"
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/b4_hook_a_disp.png" data-views="assets/catalog/b4_hook_a.png,assets/catalog/b4_hook_b.png,assets/catalog/b4_hook_c.png" src="assets/catalog/b4_hook_a.png" alt="Hook"
           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#B8A070"/>
@@ -409,19 +432,19 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Light</span>
+        <span class="product-category">Fixture</span>
         <div class="card-meta-row">
-          <span class="product-name">Candle Block</span>
+          <span class="product-name">Hook</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€78</span>
+          <span class="product-price">€38</span>
         </div>
-        <span class="product-desc">Solid form, warm interior. Stays when you leave.</span>
+        <span class="product-desc">Single point, orange grip. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/b5_tray_c_disp.png" src="assets/catalog/b5_tray_c.png" alt="Form Tray"
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/c_travel_block_objekt_disp.png" data-views="assets/catalog/c_travel_block_objekt.png,assets/catalog/c_travel_block_material.png,assets/catalog/c_travel_block_moment.png" src="assets/catalog/c_travel_block_objekt.png" alt="Travel Block"
           onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#D6CAB8"/>
@@ -433,11 +456,11 @@
       <div class="card-meta">
         <span class="product-category">Surface</span>
         <div class="card-meta-row">
-          <span class="product-name">Form Tray</span>
+          <span class="product-name">Travel Block</span>
           <span class="meta-sep">—</span>
           <span class="product-price">€92</span>
         </div>
-        <span class="product-desc">Sharp edges, shallow walls. Collects what matters.</span>
+        <span class="product-desc">Solid form, cable-ready. Click through 3 views.</span>
       </div>
     </article>
 
@@ -447,9 +470,9 @@
     <span class="footer-left">Settle I</span>
     <span class="tagline">Objects that stay.</span>
     <nav class="footer-nav">
-      <a class="footer-nav-item active" href="#">Scent</a>
-      <a class="footer-nav-item" href="#">Textile</a>
-      <a class="footer-nav-item" href="#">Light</a>
+      <a class="footer-nav-item active" href="#">Vessel</a>
+      <a class="footer-nav-item" href="#">Organizer</a>
+      <a class="footer-nav-item" href="#">Fixture</a>
       <a class="footer-nav-item" href="#">Surface</a>
     </nav>
   </footer>
@@ -457,7 +480,9 @@
 </div>
 
 <script src="assets/depth_parallax.js"></script>
+<script src="assets/product_views.js"></script>
 <script>
+  window.initProductViews();
   window.initDepthParallax();
 </script>
 

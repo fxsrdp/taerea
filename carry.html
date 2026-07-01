@@ -158,6 +158,29 @@
     overflow: hidden;
   }
 
+  .view-dots {
+    position: absolute;
+    bottom: 0.8vw;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.5vw;
+    z-index: 2;
+  }
+
+  .view-dot {
+    width: 0.4vw;
+    height: 0.4vw;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .view-dot.active {
+    background: #8a9ab8;
+    transform: scale(1.3);
+  }
+
   .card-placeholder {
     width: 100%;
     height: 100%;
@@ -356,7 +379,7 @@
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/carry_product_1_disp.png" src="assets/carry_product_1.png" alt="Stone Vessel" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/jakob_r1_pipette_objekt_disp.png" data-views="assets/catalog/jakob_r1_pipette_objekt.png,assets/catalog/jakob_r1_pipette_material.png,assets/catalog/jakob_r1_pipette_moment.png" src="assets/catalog/jakob_r1_pipette_objekt.png" alt="Dosing Pipette" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#C8BFB0"/>
         </svg>
@@ -365,19 +388,19 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Carry</span>
+        <span class="product-category">PLA Prototype</span>
         <div class="card-meta-row">
-          <span class="product-name">Stone Vessel</span>
+          <span class="product-name">Dosing Pipette</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€ 148</span>
+          <span class="product-price">€ 42</span>
         </div>
-        <span class="product-desc">Hand-turned limestone cup. One piece, one purpose.</span>
+        <span class="product-desc">Amber glass, white PLA cap. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/carry_product_2_disp.png" src="assets/carry_product_2.png" alt="Travel Incense Set" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/jakob_r2_card_objekt_disp.png" data-views="assets/catalog/jakob_r2_card_objekt.png,assets/catalog/jakob_r2_card_material.png,assets/catalog/jakob_r2_card_moment.png" src="assets/catalog/jakob_r2_card_objekt.png" alt="Carry Card" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#A8966E"/>
         </svg>
@@ -386,19 +409,19 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Carry</span>
+        <span class="product-category">PLA Prototype</span>
         <div class="card-meta-row">
-          <span class="product-name">Travel Incense Set</span>
+          <span class="product-name">Carry Card</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€ 89</span>
+          <span class="product-price">€ 28</span>
         </div>
-        <span class="product-desc">Brass holder, resin cones. Ritual, compressed.</span>
+        <span class="product-desc">Ultra-thin organizer, single slot. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/carry_product_3_disp.png" src="assets/carry_product_3.png" alt="Linen Pouch" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/jakob_r3_rail_objekt_disp.png" data-views="assets/catalog/jakob_r3_rail_objekt.png,assets/catalog/jakob_r3_rail_material.png,assets/catalog/jakob_r3_rail_moment.png" src="assets/catalog/jakob_r3_rail_objekt.png" alt="Module Hook Rail" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#7A7260"/>
         </svg>
@@ -407,19 +430,19 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Carry</span>
+        <span class="product-category">PLA Prototype</span>
         <div class="card-meta-row">
-          <span class="product-name">Linen Pouch</span>
+          <span class="product-name">Module Hook Rail</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€ 112</span>
+          <span class="product-price">€ 56</span>
         </div>
-        <span class="product-desc">Waxed linen, brass clasp. Carries what matters.</span>
+        <span class="product-desc">Modular wall rail, geometric slots. Click through 3 views.</span>
       </div>
     </article>
 
     <article class="product-card">
       <div class="card-image">
-        <img class="card-img depth-img" data-depth="assets/depth_disp/carry_product_4_disp.png" src="assets/carry_product_4.png" alt="Field Notebook" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
+        <img class="card-img depth-img views-img" data-depth="assets/depth_disp/jakob_r4_clip_objekt_disp.png" data-views="assets/catalog/jakob_r4_clip_objekt.png,assets/catalog/jakob_r4_clip_material.png,assets/catalog/jakob_r4_clip_moment.png" src="assets/catalog/jakob_r4_clip_objekt.png" alt="Mirror Clip System" onerror="this.style.display='none';this.parentElement.querySelector('.card-placeholder').style.display='block';">
         <svg class="card-placeholder" viewBox="0 0 100 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" style="display:none;">
           <rect width="100" height="100" fill="#4A4A4A"/>
         </svg>
@@ -428,13 +451,13 @@
         </div>
       </div>
       <div class="card-meta">
-        <span class="product-category">Carry</span>
+        <span class="product-category">PLA Prototype</span>
         <div class="card-meta-row">
-          <span class="product-name">Field Notebook</span>
+          <span class="product-name">Mirror Clip System</span>
           <span class="meta-sep">—</span>
-          <span class="product-price">€ 64</span>
+          <span class="product-price">€ 34</span>
         </div>
-        <span class="product-desc">Stone-paper cover. Writes anywhere, holds everything.</span>
+        <span class="product-desc">Mounts thin mirror panels. Click through 3 views.</span>
       </div>
     </article>
 
@@ -442,19 +465,21 @@
 
   <footer class="shop-footer">
     <span class="footer-left">Carry II</span>
-    <span class="tagline">Objects that travel.</span>
+    <span class="tagline">Real prototypes, real objects.</span>
     <nav class="footer-nav">
-      <a class="footer-nav-item active" href="#">Stone</a>
-      <a class="footer-nav-item" href="#">Brass</a>
-      <a class="footer-nav-item" href="#">Linen</a>
-      <a class="footer-nav-item" href="#">Paper</a>
+      <a class="footer-nav-item active" href="#">Pipette</a>
+      <a class="footer-nav-item" href="#">Card</a>
+      <a class="footer-nav-item" href="#">Rail</a>
+      <a class="footer-nav-item" href="#">Clip</a>
     </nav>
   </footer>
 
 </div>
 
 <script src="assets/depth_parallax.js"></script>
+<script src="assets/product_views.js"></script>
 <script>
+  window.initProductViews();
   window.initDepthParallax();
 </script>
 

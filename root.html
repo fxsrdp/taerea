@@ -418,7 +418,7 @@
     <!-- HERO: Mineral Block -->
     <article class="card-hero">
       <div class="card-img-wrap">
-        <img class="card-img" src="assets/root_product_1.png" alt="Mineral Block"
+        <img class="card-img depth-img" data-depth="assets/depth_disp/root_product_1_disp.png" src="assets/root_product_1.png" alt="Mineral Block"
           onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#d4cdd8\'/></svg>')">
         <div class="card-overlay">
           <span class="overlay-label">View Object</span>
@@ -438,7 +438,7 @@
       <!-- Forge Hook: 2:3 portrait top -->
       <article class="card-small">
         <div class="card-img-wrap">
-          <img class="card-img" src="assets/root_product_2.png" alt="Forge Hook"
+          <img class="card-img depth-img" data-depth="assets/depth_disp/root_product_2_disp.png" src="assets/root_product_2.png" alt="Forge Hook"
             onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#2e2c30\'/></svg>')">
           <div class="card-overlay">
             <span class="overlay-label">View Object</span>
@@ -455,7 +455,7 @@
       <!-- Linen Cord: 1:1 square middle -->
       <article class="card-small">
         <div class="card-img-wrap">
-          <img class="card-img" src="assets/root_product_3.png" alt="Linen Cord"
+          <img class="card-img depth-img" data-depth="assets/depth_disp/root_product_3_disp.png" src="assets/root_product_3.png" alt="Linen Cord"
             onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#c8bb9e\'/></svg>')">
           <div class="card-overlay">
             <span class="overlay-label">View Object</span>
@@ -472,7 +472,7 @@
       <!-- Brass Weight: 16:9 landscape bottom -->
       <article class="card-small">
         <div class="card-img-wrap">
-          <img class="card-img" src="assets/root_product_4.png" alt="Brass Weight"
+          <img class="card-img depth-img" data-depth="assets/depth_disp/root_product_4_disp.png" src="assets/root_product_4.png" alt="Brass Weight"
             onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','<svg style=\'width:100%;height:100%;display:block\' viewBox=\'0 0 100 100\' preserveAspectRatio=\'none\' xmlns=\'http://www.w3.org/2000/svg\'><rect width=\'100\' height=\'100\' fill=\'#b8952a\'/></svg>')">
           <div class="card-overlay">
             <span class="overlay-label">View Object</span>
@@ -543,6 +543,11 @@
       attachTilt(card, MAX_TILT_SMALL);
     });
   })();
+</script>
+
+<script src="assets/depth_parallax.js"></script>
+<script>
+  window.initDepthParallax();
 </script>
 
 </body>

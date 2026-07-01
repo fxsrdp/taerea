@@ -85,8 +85,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .card-img-wrap {
@@ -263,8 +261,6 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .card-small:last-child {
@@ -502,48 +498,6 @@
   </footer>
 
 </div>
-
-<script>
-  // Cursor-reactive tilt — subtle 3D parallax on hover.
-  // Hero card gets a slightly more pronounced tilt than the small stacked cards.
-  (function () {
-    var MAX_TILT_HERO = 3.5; // deg
-    var MAX_TILT_SMALL = 2.5; // deg
-
-    function attachTilt(el, maxTilt) {
-      var raf = null;
-
-      function onMove(e) {
-        var rect = el.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width;  // 0..1
-        var y = (e.clientY - rect.top) / rect.height;  // 0..1
-        var rotateY = (x - 0.5) * 2 * maxTilt;
-        var rotateX = (0.5 - y) * 2 * maxTilt;
-
-        if (raf) cancelAnimationFrame(raf);
-        raf = requestAnimationFrame(function () {
-          el.style.transform =
-            'perspective(60vw) rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
-        });
-      }
-
-      function onLeave() {
-        if (raf) cancelAnimationFrame(raf);
-        el.style.transform = 'perspective(60vw) rotateX(0deg) rotateY(0deg)';
-      }
-
-      el.addEventListener('mousemove', onMove);
-      el.addEventListener('mouseleave', onLeave);
-    }
-
-    var hero = document.querySelector('.card-hero');
-    if (hero) attachTilt(hero, MAX_TILT_HERO);
-
-    document.querySelectorAll('.card-small').forEach(function (card) {
-      attachTilt(card, MAX_TILT_SMALL);
-    });
-  })();
-</script>
 
 <script src="assets/depth_parallax.js"></script>
 <script>

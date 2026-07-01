@@ -79,7 +79,6 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 0;
-    perspective: 100vw;
   }
 
   .product-card {
@@ -94,8 +93,6 @@
     opacity: 0;
     transform: translateY(1.2vw);
     animation: cardEnter 0.8s ease forwards;
-    transform-style: preserve-3d;
-    will-change: transform;
   }
 
   .product-card:nth-child(1) { animation-delay: 0ms; }
@@ -457,27 +454,6 @@
   </footer>
 
 </div>
-
-<script>
-  (function () {
-    var MAX_TILT = 3.5; // degrees, kept subtle per spec
-
-    document.querySelectorAll('.product-card').forEach(function (card) {
-      card.addEventListener('mousemove', function (e) {
-        var rect = card.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width;  // 0..1
-        var y = (e.clientY - rect.top) / rect.height;  // 0..1
-        var rotateY = (x - 0.5) * (MAX_TILT * 2);
-        var rotateX = (0.5 - y) * (MAX_TILT * 2);
-        card.style.transform = 'perspective(60vw) rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
-      });
-
-      card.addEventListener('mouseleave', function () {
-        card.style.transform = '';
-      });
-    });
-  })();
-</script>
 
 <script src="assets/depth_parallax.js"></script>
 <script>

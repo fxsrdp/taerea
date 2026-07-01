@@ -155,9 +155,6 @@
     flex: 0 0 70%;
     position: relative;
     overflow: hidden;
-    transform-style: preserve-3d;
-    transition: transform 0.3s ease;
-    transform: perspective(60vw) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   }
 
   .card-placeholder {
@@ -454,30 +451,6 @@
   </footer>
 
 </div>
-
-<script>
-  (function () {
-    var images = document.querySelectorAll('.card-image');
-    var MAX_TILT = 3.5;
-
-    images.forEach(function (img) {
-      img.addEventListener('mousemove', function (e) {
-        var rect = img.getBoundingClientRect();
-        var px = (e.clientX - rect.left) / rect.width;
-        var py = (e.clientY - rect.top) / rect.height;
-        var tiltY = (px - 0.5) * 2 * MAX_TILT;
-        var tiltX = (0.5 - py) * 2 * MAX_TILT;
-        img.style.setProperty('--tilt-x', tiltX.toFixed(2) + 'deg');
-        img.style.setProperty('--tilt-y', tiltY.toFixed(2) + 'deg');
-      });
-
-      img.addEventListener('mouseleave', function () {
-        img.style.setProperty('--tilt-x', '0deg');
-        img.style.setProperty('--tilt-y', '0deg');
-      });
-    });
-  })();
-</script>
 
 <script src="assets/depth_parallax.js"></script>
 <script>

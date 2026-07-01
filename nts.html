@@ -98,6 +98,18 @@
     border-bottom: 1px solid #0d0d0d;
     cursor: crosshair;
     overflow: hidden;
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  .product-card.is-live {
+    animation: signal-on 0.35s ease-out forwards;
+  }
+
+  @keyframes signal-on {
+    0%   { opacity: 0; transform: scale(0.94); }
+    60%  { opacity: 1; transform: scale(1.008); }
+    100% { opacity: 1; transform: scale(1); }
   }
 
   .product-card:nth-child(4n) {
@@ -123,6 +135,7 @@
     display: block;
     object-fit: cover;
     transition: filter 0.25s ease;
+    animation: kenburns 22s ease-in-out infinite alternate;
   }
 
   .card-placeholder {
@@ -136,9 +149,26 @@
     z-index: 1;
   }
 
+  @keyframes kenburns {
+    0%   { transform: scale(1); }
+    100% { transform: scale(1.03); }
+  }
+
   .product-card:hover .card-img,
   .product-card:hover .card-placeholder {
     filter: brightness(0.88);
+  }
+
+  /* ── HOVER GLITCH FLICKER (broadcast test-pattern) ── */
+  .product-card:hover .card-img {
+    animation: kenburns 22s ease-in-out infinite alternate, glitch-flicker 0.12s steps(1) 1;
+  }
+
+  @keyframes glitch-flicker {
+    0%   { filter: brightness(1.3); transform: translateX(-0.15vw) scale(1); }
+    35%  { filter: brightness(0.7); transform: translateX(0.15vw) scale(1); }
+    70%  { filter: brightness(1.1); transform: translateX(-0.08vw) scale(1); }
+    100% { filter: brightness(0.88); transform: translateX(0) scale(1); }
   }
 
   /* ── CARD TEXT ── */
@@ -214,6 +244,7 @@
   .footer-index {
     display: flex;
     align-items: center;
+    gap: 0.6vw;
     padding: 0 1.4vw;
     border-right: 1px solid #0d0d0d;
     font-weight: 200;
@@ -221,6 +252,19 @@
     letter-spacing: 0.15em;
     color: #0d0d0d;
     white-space: nowrap;
+  }
+
+  .live-dot {
+    width: 0.45vw;
+    height: 0.45vw;
+    border-radius: 50%;
+    background: #e8521a;
+    animation: live-blink 1.6s steps(1) infinite;
+  }
+
+  @keyframes live-blink {
+    0%, 49%   { opacity: 1; }
+    50%, 100% { opacity: 0.15; }
   }
 
   .footer-ticker {
@@ -538,7 +582,7 @@
 
   <!-- FOOTER -->
   <footer class="shop-footer">
-    <div class="footer-index">IV</div>
+    <div class="footer-index"><span class="live-dot"></span>IV</div>
     <div class="footer-ticker">
       <div class="ticker-track">
         <span class="ticker-segment">Taerea <span class="accent">—</span> Objects for the considered life</span>
@@ -565,6 +609,20 @@
   }
   updateTime();
   setInterval(updateTime, 30000);
+
+  // Broadcast signal-on: diagonal wave stagger across the 4x3 grid
+  (function () {
+    const COLS = 4;
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach(function (card, i) {
+      const row = Math.floor(i / COLS);
+      const col = i % COLS;
+      const delay = (row + col) * 50; // ms, diagonal wave
+      setTimeout(function () {
+        card.classList.add('is-live');
+      }, delay);
+    });
+  })();
 </script>
 
 </body>

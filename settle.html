@@ -79,6 +79,7 @@
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 0;
+    perspective: 100vw;
   }
 
   .product-card {
@@ -89,7 +90,28 @@
     border-bottom: 1px solid #0d0d0d;
     cursor: crosshair;
     overflow: hidden;
-    transition: all 0.4s ease;
+    transition: box-shadow 0.4s ease;
+    opacity: 0;
+    transform: translateY(1.2vw);
+    animation: cardEnter 0.8s ease forwards;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  .product-card:nth-child(1) { animation-delay: 0ms; }
+  .product-card:nth-child(2) { animation-delay: 80ms; }
+  .product-card:nth-child(3) { animation-delay: 160ms; }
+  .product-card:nth-child(4) { animation-delay: 240ms; }
+
+  @keyframes cardEnter {
+    from {
+      opacity: 0;
+      transform: translateY(1.2vw);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .product-card:nth-child(2),
@@ -113,6 +135,7 @@
     width: 100%;
     height: 100%;
     transition: filter 0.4s ease;
+    animation: kenBurns 26s ease-in-out infinite alternate;
   }
 
   .card-img {
@@ -121,6 +144,27 @@
     object-fit: cover;
     display: block;
     transition: filter 0.4s ease;
+    animation: kenBurns 26s ease-in-out infinite alternate;
+  }
+
+  .product-card:nth-child(2) .card-img,
+  .product-card:nth-child(2) .card-placeholder {
+    animation-duration: 22s;
+  }
+
+  .product-card:nth-child(3) .card-img,
+  .product-card:nth-child(3) .card-placeholder {
+    animation-duration: 30s;
+  }
+
+  .product-card:nth-child(4) .card-img,
+  .product-card:nth-child(4) .card-placeholder {
+    animation-duration: 24s;
+  }
+
+  @keyframes kenBurns {
+    from { transform: scale(1); }
+    to { transform: scale(1.04); }
   }
 
   .card-overlay {
@@ -140,6 +184,14 @@
     font-size: 1vw;
     letter-spacing: 0.35em;
     text-transform: uppercase;
+    transform: translateY(0.4vw);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+
+  .product-card:hover .overlay-label {
+    transform: translateY(0);
+    opacity: 1;
   }
 
   /* ── CARD META ── */
@@ -164,7 +216,7 @@
     font-size: 1.4vw;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    transition: color 0.4s ease;
+    transition: color 0.4s ease, transform 0.4s ease;
   }
 
   .meta-sep {
@@ -178,7 +230,7 @@
     font-weight: 200;
     font-size: 1.2vw;
     letter-spacing: 0.1em;
-    transition: color 0.4s ease;
+    transition: color 0.4s ease, transform 0.4s ease;
     flex-shrink: 0;
   }
 
@@ -187,8 +239,20 @@
     font-size: 0.9vw;
     letter-spacing: 0.08em;
     color: #888;
-    transition: color 0.4s ease;
+    transition: color 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
     line-height: 1.5;
+  }
+
+  .product-card:hover .product-name {
+    transform: translateX(-0.3vw);
+  }
+
+  .product-card:hover .product-price {
+    transform: translateX(0.3vw);
+  }
+
+  .product-card:hover .product-desc {
+    transform: translateY(-0.15vw);
   }
 
   .product-category {
@@ -393,6 +457,27 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var MAX_TILT = 3.5; // degrees, kept subtle per spec
+
+    document.querySelectorAll('.product-card').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width;  // 0..1
+        var y = (e.clientY - rect.top) / rect.height;  // 0..1
+        var rotateY = (x - 0.5) * (MAX_TILT * 2);
+        var rotateX = (0.5 - y) * (MAX_TILT * 2);
+        card.style.transform = 'perspective(60vw) rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.style.transform = '';
+      });
+    });
+  })();
+</script>
 
 </body>
 </html>

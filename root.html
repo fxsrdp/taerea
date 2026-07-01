@@ -85,6 +85,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transform-style: preserve-3d;
+    will-change: transform;
   }
 
   .card-img-wrap {
@@ -93,12 +95,33 @@
     overflow: hidden;
   }
 
+  /* ── ROOT GLOW: faint accent light rising from the base ── */
+  .card-img-wrap::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60%;
+    background: radial-gradient(ellipse at 50% 100%, rgba(155, 142, 160, 0.35) 0%, rgba(155, 142, 160, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .card-hero:hover .card-img-wrap::after,
+  .card-small:hover .card-img-wrap::after {
+    opacity: 1;
+  }
+
   .card-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition: filter 0.4s ease;
+    animation: ken-burns-hero 26s ease-in-out infinite alternate;
   }
 
   .card-hero:hover .card-img {
@@ -113,11 +136,42 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.4s ease;
+    z-index: 2;
   }
 
   .card-hero:hover .card-overlay {
     opacity: 1;
   }
+
+  @keyframes ken-burns-hero {
+    from { transform: scale(1); }
+    to   { transform: scale(1.04); }
+  }
+
+  @keyframes card-enter {
+    from {
+      opacity: 0;
+      transform: translateY(1.4vw);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .card-hero,
+  .card-small {
+    opacity: 0;
+    animation: card-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .card-hero {
+    animation-delay: 0ms;
+  }
+
+  .card-stack .card-small:nth-child(1) { animation-delay: 100ms; }
+  .card-stack .card-small:nth-child(2) { animation-delay: 200ms; }
+  .card-stack .card-small:nth-child(3) { animation-delay: 300ms; }
 
   .overlay-label {
     color: #9b8ea0;
@@ -209,6 +263,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    transform-style: preserve-3d;
+    will-change: transform;
   }
 
   .card-small:last-child {
@@ -227,10 +283,24 @@
     object-fit: cover;
     display: block;
     transition: filter 0.4s ease;
+    animation: ken-burns-small 22s ease-in-out infinite alternate;
+  }
+
+  .card-small:nth-child(2) .card-img {
+    animation-duration: 24s;
+  }
+
+  .card-small:nth-child(3) .card-img {
+    animation-duration: 20s;
   }
 
   .card-small:hover .card-img {
     filter: brightness(0.85);
+  }
+
+  @keyframes ken-burns-small {
+    from { transform: scale(1); }
+    to   { transform: scale(1.03); }
   }
 
   .card-small:hover .card-overlay {
@@ -432,6 +502,48 @@
   </footer>
 
 </div>
+
+<script>
+  // Cursor-reactive tilt — subtle 3D parallax on hover.
+  // Hero card gets a slightly more pronounced tilt than the small stacked cards.
+  (function () {
+    var MAX_TILT_HERO = 3.5; // deg
+    var MAX_TILT_SMALL = 2.5; // deg
+
+    function attachTilt(el, maxTilt) {
+      var raf = null;
+
+      function onMove(e) {
+        var rect = el.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width;  // 0..1
+        var y = (e.clientY - rect.top) / rect.height;  // 0..1
+        var rotateY = (x - 0.5) * 2 * maxTilt;
+        var rotateX = (0.5 - y) * 2 * maxTilt;
+
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(function () {
+          el.style.transform =
+            'perspective(60vw) rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg)';
+        });
+      }
+
+      function onLeave() {
+        if (raf) cancelAnimationFrame(raf);
+        el.style.transform = 'perspective(60vw) rotateX(0deg) rotateY(0deg)';
+      }
+
+      el.addEventListener('mousemove', onMove);
+      el.addEventListener('mouseleave', onLeave);
+    }
+
+    var hero = document.querySelector('.card-hero');
+    if (hero) attachTilt(hero, MAX_TILT_HERO);
+
+    document.querySelectorAll('.card-small').forEach(function (card) {
+      attachTilt(card, MAX_TILT_SMALL);
+    });
+  })();
+</script>
 
 </body>
 </html>

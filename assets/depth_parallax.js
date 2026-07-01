@@ -20,7 +20,7 @@
  * then call initDepthParallax() after DOM is ready.
  */
 (function () {
-  var MAX_SCALE = 45; // px displacement at full-strength (matches ~4vw at 1100px viewport)
+  var MAX_SCALE = 26; // px displacement at full-strength — kept within the Ken Burns oversize buffer to avoid edge clipping/transparency
   var svgNS = 'http://www.w3.org/2000/svg';
   var filterId = 0;
   var bound = [];
